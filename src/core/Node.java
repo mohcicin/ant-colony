@@ -5,13 +5,11 @@ import java.util.ArrayList;
 public class Node {
 
 	public String name;
-	public float pheromone;
 	public ArrayList<Arc> siblings;
 
 	public Node(String name) {
 		this.name = name;
 
-		pheromone = 1;
 		siblings = new ArrayList<>();
 	}
 
@@ -41,13 +39,8 @@ public class Node {
 		return null;
 	}
 
-	// Déposer des phéromones
-	public void dropPheromone(float pheromone) {
-		this.pheromone += pheromone;
-	}
-
 	@Override
 	public String toString() {
-		return name + " (" + String.valueOf(pheromone) + ")";
+		return name;
 	}
 }

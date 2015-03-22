@@ -91,7 +91,7 @@ public class Ant extends Thread {
 		// Calcul du coefficient pour chaque noeud adjacent
 		for (Node adjacentNode : adjacentNodes) {
 			arc = adjacentNode.getArcTo(currentNode);
-			float pheromone = adjacentNode.pheromone;
+			float pheromone = arc.pheromone;
 			float coefficient = (float) (Math.pow(pheromone, Config.BETA) * Math.pow(arc.cost, Config.ALPHA));
 			coefficients.put(adjacentNode, coefficient);
 		}
@@ -124,7 +124,7 @@ public class Ant extends Thread {
 
 		// Déplacement vers le noeud sélectionné avec pose de phéromone
 		arc = nextNode.getArcTo(currentNode);
-		nextNode.dropPheromone(Config.Q / arc.cost);
+		arc.dropPheromone(Config.Q / arc.cost);
 		path.add(nextNode);
 		return nextNode;
 	}
