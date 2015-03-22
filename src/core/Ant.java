@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import java.util.Stack;
 
 public class Ant extends Thread {
-
 	public Node initialNode;
 	public Node finalNode;
 	public Node currentNode;

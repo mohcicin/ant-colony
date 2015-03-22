@@ -1,7 +1,6 @@
 package core;
 
 public class Arc {
-
 	public Node nodeA;
 	public Node nodeB;
 
@@ -16,13 +15,18 @@ public class Arc {
 		this.pheromone = 1;
 	}
 
-	@Override
-	public String toString() {
-		return nodeA + " <-> " + nodeB + " : cout : " + cost + ", phéromone : " + pheromone;
-	}
-
 	// Déposer des phéromones
 	public void dropPheromone(float pheromone) {
 		this.pheromone += pheromone;
+	}
+
+	// Évaporation des phéromones
+	public void evaporationPheromone() {
+		pheromone = (1 - Config.P) * pheromone;
+	}
+
+	@Override
+	public String toString() {
+		return nodeA + " <-> " + nodeB + " : cout : " + cost + ", phéromone : " + pheromone;
 	}
 }
