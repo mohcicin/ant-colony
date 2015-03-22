@@ -37,7 +37,7 @@ public class Node {
 
 		return null;
 	}
-	
+
 	public void dropPheromone(float pheromone) {
 		this.pheromone += pheromone;
 	}

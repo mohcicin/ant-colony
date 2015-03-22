@@ -1,9 +1,9 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Stack;
 
 public class Ant extends Thread {
@@ -88,44 +88,30 @@ public class Ant extends Thread {
 
 		float total = 0;
 
-		//System.out.println("== DEBUT SUR N");
-		for (Entry<Node, Float> e : coefficients.entrySet()) {
+		for (Entry<Node, Float> e : coefficients.entrySet())
 			total += e.getValue();
-			//System.out.println(e.getValue());
-		}
-		//System.out.println("== DEBUT SUR N");
 
 		for (Entry<Node, Float> e : coefficients.entrySet())
-			e.setValue(e.getValue() / total);
-
-		//System.out.println("== DEBUT SUR 1");
-		//for (Entry<Node, Float> e : coefficients.entrySet())
-		//	System.out.println(e.getValue());
-		//System.out.println("== FIN SUR 1");
-		float rand = new Random().nextFloat();
+			e.setValue(e.getValue() * 100 / total);
 
 		Node nextNode = null;
 
-		for (Entry<Node, Float> e : coefficients.entrySet())
-			if (rand <= e.getValue())
-				nextNode = e.getKey();
+		Stack<Node> randomNodes = new Stack<>();
 
+		for (Entry<Node, Float> e : coefficients.entrySet()) {
+			int coefficient = (int) Math.floor(e.getValue());
+
+			for (int i = 0; i < coefficient; i++)
+				randomNodes.add(e.getKey());
+		}
+
+		Collections.shuffle(randomNodes);
+		int i = (int) (Math.random() * randomNodes.size());
+		nextNode = randomNodes.get(i);
 		arc = nextNode.getArcTo(currentNode);
 		nextNode.dropPheromone(Config.Q / arc.cost);
 		path.add(nextNode);
-
 		return nextNode;
-
-		/*
-		 Node node = adjacentNodes.get(new Random().nextInt(adjacentNodes.size()));
-		 path.add(node);
-
-		 arc = node.getArcTo(currentNode);
-
-		 node.pheromone += Main.Q / arc.cost;
-
-		 return node;
-		 */
 	}
 
 	public ArrayList<Node> getAdjacentNodes() {
@@ -150,13 +136,6 @@ public class Ant extends Thread {
 		adjacentNodes.removeAll(path);
 		adjacentNodes.removeAll(blacklistNodes);
 
-		/*
-		 System.out.println("=================");
-		 for (Node node : adjacentNodes) {
-		 System.out.println(node);
-		 }
-		 System.out.println("=================");
-		 */
 		return adjacentNodes;
 	}
 }
