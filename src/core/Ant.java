@@ -6,115 +6,123 @@ import java.util.Stack;
 
 public class Ant extends Thread {
 
-    public Node initialNode;
-    public Node finalNode;
-    public Node currentNode;
-    public Node targetNode;
-    public Stack<Node> path;
-    public ArrayList<Node> blacklistNodes;
+	public Node initialNode;
+	public Node finalNode;
+	public Node currentNode;
+	public Node targetNode;
+	public Stack<Node> path;
+	public ArrayList<Node> blacklistNodes;
 
-    public Ant(Node initialNode, Node targetNode) {
-        this.initialNode = initialNode;
-        this.currentNode = initialNode;
+	public Ant(Node initialNode, Node targetNode) {
+		this.initialNode = initialNode;
+		this.currentNode = initialNode;
 
-        this.targetNode = targetNode;
-        this.finalNode = targetNode;
+		this.targetNode = targetNode;
+		this.finalNode = targetNode;
 
-        this.path = new Stack<>();
-        this.blacklistNodes = new ArrayList<>();
-    }
+		this.path = new Stack<>();
+		this.blacklistNodes = new ArrayList<>();
+	}
 
-    @Override
-    public void run() {
-        boolean running = true;
+	@Override
+	public void run() {
+		boolean running = true;
 
-        while (running) {
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-            }
+		while (running) {
+			try {
+				sleep(100);
+			} catch (InterruptedException e) {
+			}
 
-            path.add(currentNode);
-            currentNode.pheromone++;
+			path.add(currentNode);
+			currentNode.pheromone++;
 
-            ArrayList<Arc> siblings = currentNode.siblings;
+			ArrayList<Arc> siblings = currentNode.siblings;
 
-            if (siblings.isEmpty()) {
-                goBack();
-            }
+			/*
+			 if (siblings.isEmpty()) {
+			 goBack();
+			 }
+			 */
+			Node nextNode = null;
+			Arc arc = null;
+			ArrayList<Node> adjacentsNodes = getCorrectAdjacentNodes();
 
-            Node nextNode = null;
+			do {
+				arc = siblings.get(new Random().nextInt(siblings.size()));
 
-            do {
-                Arc arc = null;
+				/*
+				 if (arc.nodeA != currentNode)
+				 nextNode = arc.nodeA;
+				 else
+				 nextNode = arc.nodeB;
 
-                arc = siblings.get(new Random().nextInt(siblings.size()));
+				 nextNode.deadEnd = true;
 
-                if (arc.nodeA != currentNode) {
-                    nextNode = arc.nodeA;
-                } else {
-                    nextNode = arc.nodeB;
-                }
+				 if (nextNode.deadEnd)
+				 nextNode = path.remove(path.size() - 1);
 
-                if (path.contains(nextNode)) {
-                    nextNode.deadEnd = true;
-                }
+				 if (Math.random() > 0.5)
+				 nextNode = arc.nodeA;
+				 else
+				 nextNode = arc.nodeB;
+				 */
+				if (adjacentsNodes.isEmpty()) {
+					goBack();
+				} else {
+					nextNode = adjacentsNodes.get(new Random().nextInt(adjacentsNodes.size()));
+				}
 
-                if (nextNode.deadEnd) {
-                    nextNode = path.remove(path.size() - 1);
-                }
+				//System.out.println("non : " + nextNode);
+				if (nextNode == targetNode && targetNode != initialNode) {
+					//setGoalNode(initialNode);
+					running = false;
 
-                if (Math.random() > 0.5) {
-                    nextNode = arc.nodeA;
-                } else {
-                    nextNode = arc.nodeB;
-                }
+					System.out.println("== ARRIVE ==");
 
-                //System.out.println("non : " + nextNode);
-                if (nextNode == targetNode && targetNode != initialNode) {
-                    //setGoalNode(initialNode);
-                    running = false;
+					break;
+				}
+			} while (path.contains(nextNode));
 
-                    System.out.println("== ARRIVE ==");
+			currentNode = nextNode;
 
-                    break;
-                }
-            } while (path.contains(nextNode));
+			System.out.println("ok : " + currentNode);
+		}
+	}
 
-            currentNode = nextNode;
+	public void setTargetNode(Node node) {
+		targetNode = node;
+		path = new Stack<>();
+	}
 
-            System.out.println("ok : " + currentNode);
-        }
-    }
+	public void goBack() {
+		Node badNode = path.pop();
+		blacklistNodes.add(badNode);
+		currentNode = path.pop();
+	}
 
-    public void setGoalNode(Node node) {
-        targetNode = node;
-        path = new Stack<>();
-    }
+	public ArrayList<Node> getAdjacentNodes() {
+		ArrayList<Node> adjacentNodes = new ArrayList<>();
 
-    public ArrayList<Node> getValidRoutes() {
-        ArrayList<Node> res = new ArrayList<>();
+		ArrayList<Arc> arcs = currentNode.siblings;
 
-        ArrayList<Arc> siblings = currentNode.siblings;
+		for (Arc arc : arcs) {
+			if (currentNode != arc.nodeA)
+				adjacentNodes.add(arc.nodeA);
 
-        for (Arc arc : siblings) {
-            if (arc.nodeA != currentNode) {
-                res.add(arc.nodeB);
-            }
+			if (currentNode != arc.nodeB)
+				adjacentNodes.add(arc.nodeB);
+		}
 
-            if (arc.nodeB != currentNode) {
-                res.add(arc.nodeB);
-            }
-        }
+		return adjacentNodes;
+	}
 
-        res.removeAll(path);
-        res.removeAll(blacklistNodes);
-        return res;
-    }
+	public ArrayList<Node> getCorrectAdjacentNodes() {
+		ArrayList<Node> adjacentNodes = getAdjacentNodes();
 
-    public void goBack() {
-        Node badNode = path.pop();
-        blacklistNodes.add(badNode);
-        currentNode = path.pop();
-    }
+		adjacentNodes.removeAll(path);
+		adjacentNodes.removeAll(blacklistNodes);
+
+		return adjacentNodes;
+	}
 }
