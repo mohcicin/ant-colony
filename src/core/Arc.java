@@ -5,7 +5,7 @@ public class Arc {
 	public Node nodeA;
 	public Node nodeB;
 
-	public int cost;
+	public float cost;
 
 	public Arc(Node nodeA, Node nodeB, int cost) {
 		this.nodeA = nodeA;

@@ -26,6 +26,8 @@ public class Ant extends Thread {
 
 	@Override
 	public void run() {
+		ArrayList<Node> adjacentNodes;
+
 		while (true) {
 			try {
 				sleep(500);
@@ -35,7 +37,7 @@ public class Ant extends Thread {
 			path.add(currentNode);
 
 			while (true) {
-				ArrayList<Node> adjacentNodes = getCorrectAdjacentNodes();
+				adjacentNodes = getCorrectAdjacentNodes();
 
 				if (adjacentNodes.isEmpty())
 					currentNode = goBack();
@@ -73,7 +75,9 @@ public class Ant extends Thread {
 		Node node = adjacentNodes.get(new Random().nextInt(adjacentNodes.size()));
 		path.add(node);
 
-		node.pheromone++;
+		Arc arc = node.getArcTo(currentNode);
+
+		node.pheromone += Main.Q / arc.cost;
 
 		return node;
 	}

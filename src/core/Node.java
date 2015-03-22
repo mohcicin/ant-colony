@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Node {
 
 	public String name;
-	public int pheromone;
+	public float pheromone;
 	public ArrayList<Arc> siblings;
 	public boolean deadEnd;
 
@@ -29,6 +29,20 @@ public class Node {
 			siblings.remove(sibling);
 			sibling.nodeB.removeSibling(sibling);
 		}
+	}
+
+	public Arc getArcTo(Node testNode) {
+		Arc arc = null;
+
+		for (Arc sibling : siblings) {
+			if (sibling.nodeA == testNode)
+				arc = sibling;
+
+			if (sibling.nodeB == testNode)
+				arc = sibling;
+		}
+
+		return arc;
 	}
 
 	@Override

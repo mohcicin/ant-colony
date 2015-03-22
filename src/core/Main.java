@@ -2,20 +2,21 @@ package core;
 
 public class Main {
 
-	public static final int ALPHA = 3;
-	public static final int BETA = 5;
+	public static final float ALPHA = 3;
+	public static final float BETA = 5;
+	public static final float Q = 20;
 
 	public static void main(String[] args) {
 		/*
-		   F
+		 F
 		 3/ \1
 		 D   E
 		 4\ /1
-		   C
+		 C
 		 1/ \5
 		 B   A
 		 1\ /5
-		   N
+		 N
 		 */
 
 		Node nodeF = new Node("F");
