@@ -6,7 +6,6 @@ public class Main {
     public static final int BETA = 5;
 
     public static void main(String[] args) {
-<<<<<<< HEAD
         /*
              F
            3/ \1
@@ -19,8 +18,6 @@ public class Main {
              N
         */
 
-=======
->>>>>>> a07567a66688f6928c7122dc1026172631ec056b
         Node nodeF = new Node("F");
         Node nodeE = new Node("E");
         Node nodeD = new Node("D");
