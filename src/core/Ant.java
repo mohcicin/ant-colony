@@ -39,38 +39,19 @@ public class Ant extends Thread {
 
 			ArrayList<Arc> siblings = currentNode.siblings;
 
-			/*
-			 if (siblings.isEmpty()) {
-			 goBack();
-			 }
-			 */
 			Node nextNode = null;
-			Arc arc = null;
-			ArrayList<Node> adjacentsNodes = getCorrectAdjacentNodes();
 
+			boolean runDo = true;
+			
 			do {
-				arc = siblings.get(new Random().nextInt(siblings.size()));
+				ArrayList<Node> adjacentsNodes = getCorrectAdjacentNodes();
 
-				/*
-				 if (arc.nodeA != currentNode)
-				 nextNode = arc.nodeA;
-				 else
-				 nextNode = arc.nodeB;
-
-				 nextNode.deadEnd = true;
-
-				 if (nextNode.deadEnd)
-				 nextNode = path.remove(path.size() - 1);
-
-				 if (Math.random() > 0.5)
-				 nextNode = arc.nodeA;
-				 else
-				 nextNode = arc.nodeB;
-				 */
 				if (adjacentsNodes.isEmpty()) {
-					goBack();
+					nextNode = goBack();
 				} else {
 					nextNode = adjacentsNodes.get(new Random().nextInt(adjacentsNodes.size()));
+					currentNode = nextNode;
+					path.add(currentNode);
 				}
 
 				//System.out.println("non : " + nextNode);
@@ -82,9 +63,7 @@ public class Ant extends Thread {
 
 					break;
 				}
-			} while (path.contains(nextNode));
-
-			currentNode = nextNode;
+			} while (runDo);
 
 			System.out.println("ok : " + currentNode);
 		}
@@ -95,10 +74,10 @@ public class Ant extends Thread {
 		path = new Stack<>();
 	}
 
-	public void goBack() {
+	public Node goBack() {
 		Node badNode = path.pop();
 		blacklistNodes.add(badNode);
-		currentNode = path.pop();
+		return path.pop();
 	}
 
 	public ArrayList<Node> getAdjacentNodes() {
@@ -123,6 +102,13 @@ public class Ant extends Thread {
 		adjacentNodes.removeAll(path);
 		adjacentNodes.removeAll(blacklistNodes);
 
+		/*
+		 System.out.println("=================");
+		 for (Node node : adjacentNodes) {
+		 System.out.println(node);
+		 }
+		 System.out.println("=================");
+		 */
 		return adjacentNodes;
 	}
 }
