@@ -11,21 +11,22 @@ public class Node {
 
 	public Node(String name) {
 		this.name = name;
-		this.pheromone = 0;
-		this.siblings = new ArrayList<>();
-		this.deadEnd = false;
+
+		pheromone = 0;
+		siblings = new ArrayList<>();
+		deadEnd = false;
 	}
 
 	public void addSibling(Arc sibling) {
-		if (!this.siblings.contains(sibling)) {
-			this.siblings.add(sibling);
+		if (!siblings.contains(sibling)) {
+			siblings.add(sibling);
 			sibling.nodeB.addSibling(sibling);
 		}
 	}
 
 	public void removeSibling(Arc sibling) {
-		if (this.siblings.contains(sibling)) {
-			this.siblings.remove(sibling);
+		if (siblings.contains(sibling)) {
+			siblings.remove(sibling);
 			sibling.nodeB.removeSibling(sibling);
 		}
 	}

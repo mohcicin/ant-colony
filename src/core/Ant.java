@@ -15,13 +15,13 @@ public class Ant extends Thread {
 
 	public Ant(Node initialNode, Node targetNode) {
 		this.initialNode = initialNode;
-		this.currentNode = initialNode;
-
 		this.targetNode = targetNode;
-		this.finalNode = targetNode;
 
-		this.path = new Stack<>();
-		this.blacklistNodes = new ArrayList<>();
+		currentNode = initialNode;
+		finalNode = targetNode;
+
+		path = new Stack<>();
+		blacklistNodes = new ArrayList<>();
 	}
 
 	@Override
