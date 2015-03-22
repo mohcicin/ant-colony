@@ -82,12 +82,12 @@ public class Ant extends Thread {
 		return path.pop();
 	}
 
-	// Aller à un noeud parmi la liste des noeuds adjacents (liés)
+	// Se rendre sur un noeud parmi la liste des noeuds adjacents (liés)
 	public Node goNode(ArrayList<Node> adjacentNodes) {
 		Arc arc;
 		HashMap<Node, Float> coefficients = new HashMap<>();
 
-		// Calcul du coefficient pour chaque noeud adjacent
+		// Calcul du coefficient pour chacun des noeuds adjacents
 		for (Node adjacentNode : adjacentNodes) {
 			arc = adjacentNode.getArcTo(currentNode);
 			float pheromone = arc.pheromone;
@@ -101,25 +101,24 @@ public class Ant extends Thread {
 		for (Entry<Node, Float> e : coefficients.entrySet())
 			total += e.getValue();
 
-		// Normalisation des coefficients
+		// Normalisation des coefficients (sur 100)
 		for (Entry<Node, Float> e : coefficients.entrySet())
 			e.setValue(e.getValue() * 100 / total);
 
 		// Sélection d'un noeud au hasard (en prenant en compte les coefficients)
 		Node nextNode = null;
 
-		Stack<Node> randomNodes = new Stack<>();
+		Stack<Node> listNodes = new Stack<>();
 
 		for (Entry<Node, Float> e : coefficients.entrySet()) {
 			int coefficient = (int) Math.floor(e.getValue());
 
 			for (int i = 0; i < coefficient; i++)
-				randomNodes.add(e.getKey());
+				listNodes.add(e.getKey());
 		}
 
-		Collections.shuffle(randomNodes);
-		int i = (int) (Math.random() * randomNodes.size());
-		nextNode = randomNodes.get(i);
+		int i = (int) (Math.random() * listNodes.size());
+		nextNode = listNodes.get(i);
 
 		// Déplacement vers le noeud sélectionné avec pose de phéromone
 		arc = nextNode.getArcTo(currentNode);
