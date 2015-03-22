@@ -7,15 +7,15 @@ public class Main {
 
 	public static void main(String[] args) {
 		/*
-			  F
-			3/ \1
-			D   E
-			4\ /1
-			  C
-			1/ \5
-			B   A
-			1\ /5
-			  N
+		 F
+		 3/ \1
+		 D   E
+		 4\ /1
+		 C
+		 1/ \5
+		 B   A
+		 1\ /5
+		 N
 		 */
 
 		Node nodeF = new Node("F");
@@ -50,7 +50,9 @@ public class Main {
 		Arc arc8 = new Arc(nodeB, nodeN, 1);
 		nodeB.addSibling(arc8);
 
+		//for (int i = 0 ; i < 20 ; i++) {
 		Ant ant1 = new Ant(nodeN, nodeF);
 		ant1.start();
+		//}
 	}
 }

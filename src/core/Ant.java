@@ -37,35 +37,22 @@ public class Ant extends Thread {
 			path.add(currentNode);
 			currentNode.pheromone++;
 
-			ArrayList<Arc> siblings = currentNode.siblings;
+			while (true) {
+				ArrayList<Node> adjacentNodes = getCorrectAdjacentNodes();
 
-			Node nextNode = null;
+				if (adjacentNodes.isEmpty())
+					currentNode = goBack();
+				else
+					currentNode = goNode(adjacentNodes);
 
-			boolean runDo = true;
-			
-			do {
-				ArrayList<Node> adjacentsNodes = getCorrectAdjacentNodes();
-
-				if (adjacentsNodes.isEmpty()) {
-					nextNode = goBack();
-				} else {
-					nextNode = adjacentsNodes.get(new Random().nextInt(adjacentsNodes.size()));
-					currentNode = nextNode;
-					path.add(currentNode);
-				}
-
-				//System.out.println("non : " + nextNode);
-				if (nextNode == targetNode && targetNode != initialNode) {
-					//setGoalNode(initialNode);
+				if (currentNode == targetNode) {
 					running = false;
-
-					System.out.println("== ARRIVE ==");
 
 					break;
 				}
-			} while (runDo);
+			}
 
-			System.out.println("ok : " + currentNode);
+			System.out.println("Arrivé au noeud " + currentNode);
 		}
 	}
 
@@ -77,7 +64,15 @@ public class Ant extends Thread {
 	public Node goBack() {
 		Node badNode = path.pop();
 		blacklistNodes.add(badNode);
+
 		return path.pop();
+	}
+
+	public Node goNode(ArrayList<Node> adjacentNodes) {
+		Node node = adjacentNodes.get(new Random().nextInt(adjacentNodes.size()));
+		path.add(node);
+
+		return node;
 	}
 
 	public ArrayList<Node> getAdjacentNodes() {
