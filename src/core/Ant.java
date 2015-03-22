@@ -2,23 +2,26 @@ package core;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 
 public class Ant extends Thread {
 
     public Node initialNode;
     public Node finalNode;
     public Node currentNode;
-    public Node goalNode;
-    public ArrayList<Node> path;
+    public Node targetNode;
+    public Stack<Node> path;
+    public ArrayList<Node> blacklistNodes;
 
-    public Ant(Node initialNode, Node goalNode) {
+    public Ant(Node initialNode, Node targetNode) {
         this.initialNode = initialNode;
         this.currentNode = initialNode;
 
-        this.goalNode = goalNode;
-        this.finalNode = goalNode;
+        this.targetNode = targetNode;
+        this.finalNode = targetNode;
 
-        this.path = new ArrayList<>();
+        this.path = new Stack<>();
+        this.blacklistNodes = new ArrayList<>();
     }
 
     @Override
@@ -35,6 +38,10 @@ public class Ant extends Thread {
             currentNode.pheromone++;
 
             ArrayList<Arc> siblings = currentNode.siblings;
+
+            if (siblings.isEmpty()) {
+                goBack();
+            }
 
             Node nextNode = null;
 
@@ -64,7 +71,7 @@ public class Ant extends Thread {
                 }
 
                 //System.out.println("non : " + nextNode);
-                if (nextNode == goalNode && goalNode != initialNode) {
+                if (nextNode == targetNode && targetNode != initialNode) {
                     //setGoalNode(initialNode);
                     running = false;
 
@@ -81,7 +88,33 @@ public class Ant extends Thread {
     }
 
     public void setGoalNode(Node node) {
-        goalNode = node;
-        path = new ArrayList<>();
+        targetNode = node;
+        path = new Stack<>();
+    }
+
+    public ArrayList<Node> getValidRoutes() {
+        ArrayList<Node> res = new ArrayList<>();
+
+        ArrayList<Arc> siblings = currentNode.siblings;
+
+        for (Arc arc : siblings) {
+            if (arc.nodeA != currentNode) {
+                res.add(arc.nodeB);
+            }
+
+            if (arc.nodeB != currentNode) {
+                res.add(arc.nodeB);
+            }
+        }
+
+        res.removeAll(path);
+        res.removeAll(blacklistNodes);
+        return res;
+    }
+
+    public void goBack() {
+        Node badNode = path.pop();
+        blacklistNodes.add(badNode);
+        currentNode = path.pop();
     }
 }
