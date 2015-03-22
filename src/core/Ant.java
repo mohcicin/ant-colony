@@ -26,16 +26,13 @@ public class Ant extends Thread {
 
 	@Override
 	public void run() {
-		boolean running = true;
-
-		while (running) {
+		while (true) {
 			try {
-				sleep(100);
+				sleep(500);
 			} catch (InterruptedException e) {
 			}
 
 			path.add(currentNode);
-			currentNode.pheromone++;
 
 			while (true) {
 				ArrayList<Node> adjacentNodes = getCorrectAdjacentNodes();
@@ -46,7 +43,10 @@ public class Ant extends Thread {
 					currentNode = goNode(adjacentNodes);
 
 				if (currentNode == targetNode) {
-					running = false;
+					if (targetNode == initialNode)
+						setTargetNode(finalNode);
+					else
+						setTargetNode(initialNode);
 
 					break;
 				}
@@ -59,6 +59,7 @@ public class Ant extends Thread {
 	public void setTargetNode(Node node) {
 		targetNode = node;
 		path = new Stack<>();
+		blacklistNodes = new ArrayList<>();
 	}
 
 	public Node goBack() {
@@ -71,6 +72,8 @@ public class Ant extends Thread {
 	public Node goNode(ArrayList<Node> adjacentNodes) {
 		Node node = adjacentNodes.get(new Random().nextInt(adjacentNodes.size()));
 		path.add(node);
+
+		node.pheromone++;
 
 		return node;
 	}
