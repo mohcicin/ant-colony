@@ -5,15 +5,15 @@ import java.util.ArrayList;
 public class Main {
 	public static void main(String[] args) {
 		/*
-		 F
+		   F
 		 3/ \1
 		 D   E
 		 4\ /1
-		 C
+		   C
 		 1/ \5
 		 B   A
 		 1\ /5
-		 N
+		   N
 		 */
 
 		Node nodeF = new Node("F");
@@ -58,10 +58,10 @@ public class Main {
 		arcs.add(arc7);
 		arcs.add(arc8);
 
-		//for (int i = 0 ; i < 20 ; i++) {
-		Ant ant1 = new Ant(nodeN, nodeF);
-		ant1.start();
-		//}
+		for (int i = 0; i < 20; i++) {
+			Ant ant1 = new Ant(nodeN, nodeF);
+			ant1.start();
+		}
 
 		new Thread() {
 			@Override
