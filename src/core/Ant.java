@@ -1,6 +1,8 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Stack;
 
@@ -44,6 +46,8 @@ public class Ant extends Thread {
 				else
 					currentNode = goNode(adjacentNodes);
 
+				System.out.println("Arrivé au noeud " + currentNode);
+
 				if (currentNode == targetNode) {
 					if (targetNode == initialNode)
 						setTargetNode(finalNode);
@@ -54,7 +58,7 @@ public class Ant extends Thread {
 				}
 			}
 
-			System.out.println("Arrivé au noeud " + currentNode);
+			System.out.println("[BORD] Arrivé au noeud " + currentNode);
 		}
 	}
 
@@ -72,14 +76,56 @@ public class Ant extends Thread {
 	}
 
 	public Node goNode(ArrayList<Node> adjacentNodes) {
-		Node node = adjacentNodes.get(new Random().nextInt(adjacentNodes.size()));
-		path.add(node);
+		Arc arc;
+		HashMap<Node, Float> coefficients = new HashMap<>();
 
-		Arc arc = node.getArcTo(currentNode);
+		for (Node adjacentNode : adjacentNodes) {
+			arc = adjacentNode.getArcTo(currentNode);
+			float pheromone = adjacentNode.pheromone;
+			float coefficient = (float) (Math.pow(pheromone, Main.BETA) * Math.pow(arc.cost, Main.ALPHA));
+			coefficients.put(adjacentNode, coefficient);
+		}
 
-		node.pheromone += Main.Q / arc.cost;
+		float total = 0;
 
-		return node;
+		//System.out.println("== DEBUT SUR N");
+		for (Entry<Node, Float> e : coefficients.entrySet()) {
+			total += e.getValue();
+			//System.out.println(e.getValue());
+		}
+		//System.out.println("== DEBUT SUR N");
+
+		for (Entry<Node, Float> e : coefficients.entrySet())
+			e.setValue(e.getValue() / total);
+
+		//System.out.println("== DEBUT SUR 1");
+		//for (Entry<Node, Float> e : coefficients.entrySet())
+		//	System.out.println(e.getValue());
+		//System.out.println("== FIN SUR 1");
+		float rand = new Random().nextFloat();
+
+		Node nextNode = null;
+
+		for (Entry<Node, Float> e : coefficients.entrySet())
+			if (rand <= e.getValue())
+				nextNode = e.getKey();
+
+		arc = nextNode.getArcTo(currentNode);
+		nextNode.dropPheromone(Main.Q / arc.cost);
+		path.add(nextNode);
+
+		return nextNode;
+
+		/*
+		 Node node = adjacentNodes.get(new Random().nextInt(adjacentNodes.size()));
+		 path.add(node);
+
+		 arc = node.getArcTo(currentNode);
+
+		 node.pheromone += Main.Q / arc.cost;
+
+		 return node;
+		 */
 	}
 
 	public ArrayList<Node> getAdjacentNodes() {

@@ -7,14 +7,12 @@ public class Node {
 	public String name;
 	public float pheromone;
 	public ArrayList<Arc> siblings;
-	public boolean deadEnd;
 
 	public Node(String name) {
 		this.name = name;
 
-		pheromone = 0;
+		pheromone = 1;
 		siblings = new ArrayList<>();
-		deadEnd = false;
 	}
 
 	public void addSibling(Arc sibling) {
@@ -32,17 +30,16 @@ public class Node {
 	}
 
 	public Arc getArcTo(Node testNode) {
-		Arc arc = null;
-
 		for (Arc sibling : siblings) {
-			if (sibling.nodeA == testNode)
-				arc = sibling;
-
-			if (sibling.nodeB == testNode)
-				arc = sibling;
+			if (sibling.nodeA == testNode || sibling.nodeB == testNode)
+				return sibling;
 		}
 
-		return arc;
+		return null;
+	}
+	
+	public void dropPheromone(float pheromone) {
+		this.pheromone += pheromone;
 	}
 
 	@Override
