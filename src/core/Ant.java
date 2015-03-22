@@ -26,6 +26,12 @@ public class Ant extends Thread {
 		blacklistNodes = new ArrayList<>();
 	}
 
+	// Comportement de la fourmi
+	// - voir les noeuds adjacents
+	// - faire demi-tour si aucun n'est disponible
+	// - avancer vers le meilleur noeud (meilleur coefficient ; avec part de hasard)
+	// - une fois à l'arrivée, faire le chemin inverse
+	// - recommencer à l'infini
 	@Override
 	public void run() {
 		ArrayList<Node> adjacentNodes;
@@ -62,12 +68,14 @@ public class Ant extends Thread {
 		}
 	}
 
+	// Changement du noeud cible
 	public void setTargetNode(Node node) {
 		targetNode = node;
 		path = new Stack<>();
 		blacklistNodes = new ArrayList<>();
 	}
 
+	// Retourner au noeud précédent (impasse)
 	public Node goBack() {
 		Node badNode = path.pop();
 		blacklistNodes.add(badNode);
@@ -75,10 +83,12 @@ public class Ant extends Thread {
 		return path.pop();
 	}
 
+	// Aller à un noeud parmi une liste des noeuds adjacents
 	public Node goNode(ArrayList<Node> adjacentNodes) {
 		Arc arc;
 		HashMap<Node, Float> coefficients = new HashMap<>();
 
+		// Calcul du coefficient pour chaque noeud adjacent
 		for (Node adjacentNode : adjacentNodes) {
 			arc = adjacentNode.getArcTo(currentNode);
 			float pheromone = adjacentNode.pheromone;
@@ -86,14 +96,17 @@ public class Ant extends Thread {
 			coefficients.put(adjacentNode, coefficient);
 		}
 
+		// Calcul du total des coefficients
 		float total = 0;
 
 		for (Entry<Node, Float> e : coefficients.entrySet())
 			total += e.getValue();
 
+		// Mise du coefficient entre 0 et 100
 		for (Entry<Node, Float> e : coefficients.entrySet())
 			e.setValue(e.getValue() * 100 / total);
 
+		// Sélection d'un noeud au hasard (en prenant en compte les coefficients)
 		Node nextNode = null;
 
 		Stack<Node> randomNodes = new Stack<>();
@@ -108,12 +121,15 @@ public class Ant extends Thread {
 		Collections.shuffle(randomNodes);
 		int i = (int) (Math.random() * randomNodes.size());
 		nextNode = randomNodes.get(i);
+
+		// Déplacement vers le noeud sélectionné avec pose de phéromone
 		arc = nextNode.getArcTo(currentNode);
 		nextNode.dropPheromone(Config.Q / arc.cost);
 		path.add(nextNode);
 		return nextNode;
 	}
 
+	// Récupération des noeuds adjacents
 	public ArrayList<Node> getAdjacentNodes() {
 		ArrayList<Node> adjacentNodes = new ArrayList<>();
 
@@ -130,6 +146,9 @@ public class Ant extends Thread {
 		return adjacentNodes;
 	}
 
+	// Récupération des noeuds adjacents
+	// n'étant ni dans le chmin parcouru
+	// ni dans la liste noire
 	public ArrayList<Node> getCorrectAdjacentNodes() {
 		ArrayList<Node> adjacentNodes = getAdjacentNodes();
 

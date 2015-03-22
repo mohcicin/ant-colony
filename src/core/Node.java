@@ -15,6 +15,7 @@ public class Node {
 		siblings = new ArrayList<>();
 	}
 
+	// Ajouter un lien (réciproque)
 	public void addSibling(Arc sibling) {
 		if (!siblings.contains(sibling)) {
 			siblings.add(sibling);
@@ -22,6 +23,7 @@ public class Node {
 		}
 	}
 
+	// Supprimer un lien (réciproque)
 	public void removeSibling(Arc sibling) {
 		if (siblings.contains(sibling)) {
 			siblings.remove(sibling);
@@ -29,6 +31,7 @@ public class Node {
 		}
 	}
 
+	// Récupérer le lien entre le noeud actuel et un autre
 	public Arc getArcTo(Node testNode) {
 		for (Arc sibling : siblings) {
 			if (sibling.nodeA == testNode || sibling.nodeB == testNode)
@@ -38,6 +41,7 @@ public class Node {
 		return null;
 	}
 
+	// Déposer des phéromones
 	public void dropPheromone(float pheromone) {
 		this.pheromone += pheromone;
 	}
