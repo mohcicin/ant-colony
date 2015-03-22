@@ -82,7 +82,7 @@ public class Ant extends Thread {
 		for (Node adjacentNode : adjacentNodes) {
 			arc = adjacentNode.getArcTo(currentNode);
 			float pheromone = adjacentNode.pheromone;
-			float coefficient = (float) (Math.pow(pheromone, Main.BETA) * Math.pow(arc.cost, Main.ALPHA));
+			float coefficient = (float) (Math.pow(pheromone, Config.BETA) * Math.pow(arc.cost, Config.ALPHA));
 			coefficients.put(adjacentNode, coefficient);
 		}
 
@@ -111,7 +111,7 @@ public class Ant extends Thread {
 				nextNode = e.getKey();
 
 		arc = nextNode.getArcTo(currentNode);
-		nextNode.dropPheromone(Main.Q / arc.cost);
+		nextNode.dropPheromone(Config.Q / arc.cost);
 		path.add(nextNode);
 
 		return nextNode;

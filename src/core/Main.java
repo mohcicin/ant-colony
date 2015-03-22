@@ -2,10 +2,6 @@ package core;
 
 public class Main {
 
-	public static final float ALPHA = 1;
-	public static final float BETA = 5;
-	public static final float Q = 20;
-
 	public static void main(String[] args) {
 		/*
 		 F
