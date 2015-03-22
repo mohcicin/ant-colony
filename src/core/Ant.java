@@ -26,12 +26,12 @@ public class Ant extends Thread {
 		blacklistNodes = new ArrayList<>();
 	}
 
-	// Comportement de la fourmi
+	// Comportement de la fourmi :
 	// - voir les noeuds adjacents
-	// - faire demi-tour si aucun n'est disponible
 	// - avancer vers le meilleur noeud (meilleur coefficient ; avec part de hasard)
-	// - une fois à l'arrivée, faire le chemin inverse
-	// - recommencer à l'infini
+	// - faire demi-tour si aucun n'est disponible (boucle ou impasse)
+	// - une fois arrivée à la cible, faire le chemin inverse
+	// - recommencer
 	@Override
 	public void run() {
 		ArrayList<Node> adjacentNodes;
@@ -75,7 +75,7 @@ public class Ant extends Thread {
 		blacklistNodes = new ArrayList<>();
 	}
 
-	// Retourner au noeud précédent (impasse)
+	// Retourner au noeud précédent (boucle ou impasse)
 	public Node goBack() {
 		Node badNode = path.pop();
 		blacklistNodes.add(badNode);
@@ -83,7 +83,7 @@ public class Ant extends Thread {
 		return path.pop();
 	}
 
-	// Aller à un noeud parmi une liste des noeuds adjacents
+	// Aller à un noeud parmi la liste des noeuds adjacents (liés)
 	public Node goNode(ArrayList<Node> adjacentNodes) {
 		Arc arc;
 		HashMap<Node, Float> coefficients = new HashMap<>();
@@ -102,7 +102,7 @@ public class Ant extends Thread {
 		for (Entry<Node, Float> e : coefficients.entrySet())
 			total += e.getValue();
 
-		// Mise du coefficient entre 0 et 100
+		// Normalisation des coefficients
 		for (Entry<Node, Float> e : coefficients.entrySet())
 			e.setValue(e.getValue() * 100 / total);
 

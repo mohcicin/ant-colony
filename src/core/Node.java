@@ -15,7 +15,7 @@ public class Node {
 		siblings = new ArrayList<>();
 	}
 
-	// Ajouter un lien (réciproque)
+	// Ajouter un lien (bidirectionnel)
 	public void addSibling(Arc sibling) {
 		if (!siblings.contains(sibling)) {
 			siblings.add(sibling);
@@ -23,7 +23,7 @@ public class Node {
 		}
 	}
 
-	// Supprimer un lien (réciproque)
+	// Supprimer un lien (bidirectionnel)
 	public void removeSibling(Arc sibling) {
 		if (siblings.contains(sibling)) {
 			siblings.remove(sibling);
