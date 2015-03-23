@@ -122,7 +122,10 @@ public class Ant extends Thread {
 
 		// Déplacement vers le noeud sélectionné avec pose de phéromone
 		arc = nextNode.getArcTo(currentNode);
-		arc.dropPheromone(Config.Q / arc.cost);
+		
+		if (targetNode == initialNode)
+			arc.dropPheromone(Config.Q / arc.cost);
+
 		path.add(nextNode);
 		return nextNode;
 	}
