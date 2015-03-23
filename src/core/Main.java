@@ -7,15 +7,15 @@ import java.util.ArrayList;
 public class Main {
 	public static void main(String[] args) {
 		/*
-		 F
+		   F
 		 3/ \1
 		 D   E
 		 4\ /1
-		 C
+		   C
 		 1/ \5
 		 B   A
 		 1\ /5
-		 N
+		   N
 		 */
 
 		// Création des noeuds
@@ -73,7 +73,7 @@ public class Main {
 
 		// Création des fourmis
 		final ArrayList<Ant> ants = new ArrayList<>();
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 20; i++) {
 			Ant ant = new Ant(nodeN, nodeF);
 			ant.start();
 			ants.add(ant);
