@@ -15,12 +15,12 @@ public class Arc {
 		this.pheromone = 1;
 	}
 
-	// Déposer des phéromones
+	/// Déposer des phéromones
 	public void dropPheromone(float pheromone) {
 		this.pheromone += pheromone;
 	}
 
-	// Évaporation des phéromones
+	/// Évaporation des phéromones
 	public void evaporationPheromone() {
 		pheromone = (1 - Config.P) * pheromone;
 	}

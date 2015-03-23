@@ -96,6 +96,6 @@ public class Main {
 		}.start();
 
 		// Affichage d'une interface graphique sommaire
-		Window window = new Window(nodes, arcs, ants);
+		Window win = new Window(nodes, arcs, ants);
 	}
 }

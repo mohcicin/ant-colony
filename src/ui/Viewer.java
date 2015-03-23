@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 
 import java.util.ArrayList;
 
-// L'interface graphique a été codée rapidement pour afficher un visuel de ce qui se déroule ;
-// elle est optimisable, ici tous les chiffres sont écrits en brut
+/// L'interface graphique a été codée rapidement pour afficher un visuel de ce qui se déroule ;
+/// elle est optimisable, ici tous les chiffres sont écrits en brut
 public class Viewer extends JPanel {
 	ArrayList<Node> nodes;
 	ArrayList<Arc> arcs;
@@ -22,12 +22,16 @@ public class Viewer extends JPanel {
 		this.ants = ants;
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
-		final int nodeSize = 40;
-		final int halfNodeSize = nodeSize / 2;
-		final int antSize = 6;
+		int nodeSize = 40;
+		int halfNodeSize = nodeSize / 2;
+		int antSize = 6;
 
+		// Fond
 		g.setColor(Color.WHITE);
+		
+		// Noeuds
 		g.fillRect(0, 0, Config.WIDTH, Config.HEIGHT);
 		g.setColor(Color.BLACK);
 
@@ -61,11 +65,11 @@ public class Viewer extends JPanel {
 			}
 		}
 
+		// Arcs
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(4));
 
 		for (Arc arc : arcs) {
-
 			switch (arc.nodeA.name + " <-> " + arc.nodeB.name) {
 				case "F <-> E":
 					g.drawLine(200 + halfNodeSize, 50 + halfNodeSize, 150 + halfNodeSize, 100 + halfNodeSize);
@@ -94,6 +98,7 @@ public class Viewer extends JPanel {
 			}
 		}
 
+		// Fourmis
 		g.setColor(Color.orange);
 
 		for (Ant ant : ants) {

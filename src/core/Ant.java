@@ -24,12 +24,12 @@ public class Ant extends Thread {
 		blacklistNodes = new ArrayList<>();
 	}
 
-	// Comportement de la fourmi :
-	// - voir les noeuds adjacents
-	// - avancer vers le meilleur noeud (meilleur coefficient ; avec part de hasard)
-	// - faire demi-tour si aucun n'est disponible (boucle ou impasse)
-	// - une fois arrivée à la cible, faire le chemin inverse
-	// - recommencer
+	/// Comportement de la fourmi :
+	/// - voir les noeuds adjacents
+	/// - avancer vers le meilleur noeud (meilleur coefficient ; avec part de hasard)
+	/// - faire demi-tour si aucun n'est disponible (boucle ou impasse)
+	/// - une fois arrivée à la cible, faire le chemin inverse
+	/// - recommencer
 	@Override
 	public void run() {
 		ArrayList<Node> adjacentNodes;
@@ -66,14 +66,14 @@ public class Ant extends Thread {
 		}
 	}
 
-	// Changement du noeud cible
+	/// Changement du noeud cible
 	public void setTargetNode(Node node) {
 		targetNode = node;
 		path = new Stack<>();
 		blacklistNodes = new ArrayList<>();
 	}
 
-	// Retourner au noeud précédent (boucle ou impasse)
+	/// Retourner au noeud précédent (boucle ou impasse)
 	public Node goBack() {
 		Node badNode = path.pop();
 		blacklistNodes.add(badNode);
@@ -81,7 +81,7 @@ public class Ant extends Thread {
 		return path.pop();
 	}
 
-	// Se rendre sur un noeud parmi la liste des noeuds adjacents (liés)
+	/// Se rendre sur un noeud parmi la liste des noeuds adjacents (liés)
 	public Node goNode(ArrayList<Node> adjacentNodes) {
 		Arc arc;
 		HashMap<Node, Float> coefficients = new HashMap<>();
@@ -129,7 +129,7 @@ public class Ant extends Thread {
 		return nextNode;
 	}
 
-	// Récupération des noeuds adjacents
+	/// Récupération des noeuds adjacents
 	public ArrayList<Node> getAdjacentNodes() {
 		ArrayList<Node> adjacentNodes = new ArrayList<>();
 
@@ -146,9 +146,9 @@ public class Ant extends Thread {
 		return adjacentNodes;
 	}
 
-	// Récupération des noeuds adjacents
-	// n'étant ni dans le chmin parcouru
-	// ni dans la liste noire
+	/// Récupération des noeuds adjacents
+	/// n'étant ni dans le chmin parcouru
+	/// ni dans la liste noire
 	public ArrayList<Node> getCorrectAdjacentNodes() {
 		ArrayList<Node> adjacentNodes = getAdjacentNodes();
 
