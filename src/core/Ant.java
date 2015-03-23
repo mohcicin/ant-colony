@@ -39,12 +39,12 @@ public class Ant extends Thread {
 			path.add(currentNode);
 
 			while (true) {
-                try {
-                    sleep(600);
-                } catch (InterruptedException e) {
-                }
+				try {
+					sleep(600);
+				} catch (InterruptedException e) {
+				}
 
-                adjacentNodes = getCorrectAdjacentNodes();
+				adjacentNodes = getCorrectAdjacentNodes();
 
 				if (adjacentNodes.isEmpty())
 					currentNode = goBack();
