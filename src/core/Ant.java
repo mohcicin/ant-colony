@@ -36,15 +36,15 @@ public class Ant extends Thread {
 		ArrayList<Node> adjacentNodes;
 
 		while (true) {
-			try {
-				sleep(500);
-			} catch (InterruptedException e) {
-			}
-
 			path.add(currentNode);
 
 			while (true) {
-				adjacentNodes = getCorrectAdjacentNodes();
+                try {
+                    sleep(600);
+                } catch (InterruptedException e) {
+                }
+
+                adjacentNodes = getCorrectAdjacentNodes();
 
 				if (adjacentNodes.isEmpty())
 					currentNode = goBack();

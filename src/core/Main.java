@@ -1,5 +1,7 @@
 package core;
 
+import ui.Window;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -16,7 +18,8 @@ public class Main {
 		   N
 		 */
 
-		Node nodeF = new Node("F");
+        // Création des noeuds
+        Node nodeF = new Node("F");
 		Node nodeE = new Node("E");
 		Node nodeD = new Node("D");
 		Node nodeC = new Node("C");
@@ -24,6 +27,16 @@ public class Main {
 		Node nodeB = new Node("B");
 		Node nodeN = new Node("N");
 
+        final ArrayList<Node> nodes = new ArrayList<>();
+        nodes.add(nodeF);
+        nodes.add(nodeE);
+        nodes.add(nodeD);
+        nodes.add(nodeC);
+        nodes.add(nodeA);
+        nodes.add(nodeB);
+        nodes.add(nodeN);
+
+        // Création des arcs
 		Arc arc1 = new Arc(nodeF, nodeE, 1);
 		nodeF.addSibling(arc1);
 
@@ -58,24 +71,31 @@ public class Main {
 		arcs.add(arc7);
 		arcs.add(arc8);
 
-		for (int i = 0; i < 20; i++) {
-			Ant ant1 = new Ant(nodeN, nodeF);
-			ant1.start();
+        // Création des fourmis
+        final ArrayList<Ant> ants = new ArrayList<>();
+        for (int i = 0; i < 200; i++) {
+			Ant ant = new Ant(nodeN, nodeF);
+			ant.start();
+            ants.add(ant);
 		}
 
-		new Thread() {
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						sleep(10000);
-					} catch (InterruptedException e) {
-					}
+        // Evaporation toutes les 10 secondes
+        new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        sleep(10000);
+                    } catch (InterruptedException e) {
+                    }
 
-					for (Arc arc : arcs)
-						arc.evaporationPheromone();
-				}
-			}
-		}.start();
-	}
+                    for (Arc arc : arcs)
+                        arc.evaporationPheromone();
+                }
+            }
+        }.start();
+
+        // Affichage graphique sommaire
+        final Window win = new Window(nodes, arcs, ants);
+    }
 }
