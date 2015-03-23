@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 import java.util.ArrayList;
 
+// L'interface graphique a été codée rapidement pour afficher un visuel de ce qui se déroule ;
+// elle est optimisable, ici tous les chiffres sont écrits en brut
 public class Viewer extends JPanel {
 	ArrayList<Node> nodes;
 	ArrayList<Arc> arcs;
@@ -25,17 +27,6 @@ public class Viewer extends JPanel {
 		final int halfNodeSize = nodeSize / 2;
 		final int antSize = 6;
 
-		/*
-		 F
-		 3/ \1
-		 D   E
-		 4\ /1
-		 C
-		 1/ \5
-		 B   A
-		 1\ /5
-		 N
-		 */
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Config.WIDTH, Config.HEIGHT);
 		g.setColor(Color.BLACK);

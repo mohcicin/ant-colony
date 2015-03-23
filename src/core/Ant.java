@@ -1,7 +1,6 @@
 package core;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Stack;
@@ -122,7 +121,7 @@ public class Ant extends Thread {
 
 		// Déplacement vers le noeud sélectionné avec pose de phéromone
 		arc = nextNode.getArcTo(currentNode);
-		
+
 		if (targetNode == initialNode)
 			arc.dropPheromone(Config.Q / arc.cost);
 
