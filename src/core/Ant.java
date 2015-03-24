@@ -87,9 +87,8 @@ public class Ant extends Thread {
 
 	/// Se rendre sur un noeud parmi la liste des noeuds adjacents (liés)
 	public Node goNode(ArrayList<Node> adjacentNodes) {
-		if (targetNode == initialNode) {
+		if (targetNode == initialNode)
 			return path.pop();
-		}
 
 		Arc arc;
 		HashMap<Node, Float> coefficients = new HashMap<>();
