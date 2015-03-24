@@ -5,9 +5,13 @@ import java.util.ArrayList;
 public class Node {
 	public String name;
 	public ArrayList<Arc> siblings;
+	public int x, y;
 
-	public Node(String name) {
+	public Node(String name, int x, int y) {
 		this.name = name;
+
+		this.x = x;
+		this.y = y;
 
 		siblings = new ArrayList<>();
 	}

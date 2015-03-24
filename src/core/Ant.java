@@ -90,7 +90,7 @@ public class Ant extends Thread {
 		for (Node adjacentNode : adjacentNodes) {
 			arc = adjacentNode.getArcTo(currentNode);
 			float pheromone = arc.pheromone;
-			float coefficient = (float) (Math.pow(pheromone, Config.BETA) * Math.pow(arc.cost, Config.ALPHA));
+			float coefficient = (float) (Math.pow(pheromone, Config.ALPHA) * Math.pow(arc.cost, Config.BETA));
 			coefficients.put(adjacentNode, coefficient);
 		}
 
@@ -110,7 +110,7 @@ public class Ant extends Thread {
 		Stack<Node> listNodes = new Stack<>();
 
 		for (Entry<Node, Float> e : coefficients.entrySet()) {
-			int coefficient = (int) Math.floor(e.getValue());
+			int coefficient = (int) Math.round(e.getValue());
 
 			for (int i = 0; i < coefficient; i++)
 				listNodes.add(e.getKey());
