@@ -34,12 +34,12 @@ public class Ant extends Thread {
 	public void run() {
 		ArrayList<Node> adjacentNodes;
 
-		while (true) {
-			path.add(currentNode);
+		path.add(currentNode);
 
+		while (true) {
 			while (true) {
 				try {
-					sleep(600);
+					sleep((int) (Math.random() * 300) + 200);
 				} catch (InterruptedException e) {
 				}
 
@@ -55,8 +55,10 @@ public class Ant extends Thread {
 				if (currentNode == targetNode) {
 					if (targetNode == initialNode)
 						setTargetNode(finalNode);
-					else
+					else {
 						setTargetNode(initialNode);
+						path.pop();
+					}
 
 					break;
 				}
@@ -69,8 +71,10 @@ public class Ant extends Thread {
 	/// Changement du noeud cible
 	public void setTargetNode(Node node) {
 		targetNode = node;
-		path = new Stack<>();
 		blacklistNodes = new ArrayList<>();
+
+		if (node == finalNode)
+			path.add(currentNode);
 	}
 
 	/// Retourner au noeud précédent (boucle ou impasse)
@@ -83,6 +87,10 @@ public class Ant extends Thread {
 
 	/// Se rendre sur un noeud parmi la liste des noeuds adjacents (liés)
 	public Node goNode(ArrayList<Node> adjacentNodes) {
+		if (targetNode == initialNode) {
+			return path.pop();
+		}
+
 		Arc arc;
 		HashMap<Node, Float> coefficients = new HashMap<>();
 
@@ -121,10 +129,7 @@ public class Ant extends Thread {
 
 		// Déplacement vers le noeud sélectionné avec pose de phéromone
 		arc = nextNode.getArcTo(currentNode);
-
-		if (targetNode == initialNode)
-			arc.dropPheromone(Config.Q / arc.cost);
-
+		arc.dropPheromone(Config.Q / arc.cost);
 		path.add(nextNode);
 		return nextNode;
 	}

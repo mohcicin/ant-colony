@@ -39,7 +39,7 @@ public class Main {
 
 		// Création des arcs
 		// Le coût a été inversé afin que la formule fonctionne correctement
-		// en faisant 6 - n
+		// en faisant 6 - n (n étant la valeur indiquée sur le sujet)
 		Arc arc1 = new Arc(nodeF, nodeE, 5);
 		nodeF.addSibling(arc1);
 
