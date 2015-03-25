@@ -128,7 +128,7 @@ public class Ant extends Thread {
 
 		// Déplacement vers le noeud sélectionné avec pose de phéromone
 		arc = nextNode.getArcTo(currentNode);
-		arc.dropPheromone(Config.Q / arc.cost);
+		dropPheromone(Config.Q / arc.cost);
 		path.add(nextNode);
 		return nextNode;
 	}
@@ -160,5 +160,9 @@ public class Ant extends Thread {
 		adjacentNodes.removeAll(blacklistNodes);
 
 		return adjacentNodes;
+	}
+	
+	public void dropPheromone() {
+		arc.dropPheromone(Config.Q / arc.cost);
 	}
 }
