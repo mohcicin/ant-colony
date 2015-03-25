@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 
 import java.util.ArrayList;
 
-/// L'interface graphique a été codée rapidement pour afficher un visuel de ce qui se déroule ;
-/// elle est optimisable, ici tous les chiffres sont écrits en brut
+/// L'interface graphique a été codée rapidement
+/// mais permet de se rendre un peu plus facilement ce qui se déroule
 public class Viewer extends JPanel {
 	ArrayList<Node> nodes;
 	ArrayList<Arc> arcs;
