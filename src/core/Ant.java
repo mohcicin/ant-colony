@@ -6,12 +6,12 @@ import java.util.Map.Entry;
 import java.util.Stack;
 
 public class Ant extends Thread {
-	public Node initialNode;
-	public Node finalNode;
-	public Node currentNode;
-	public Node targetNode;
-	public Stack<Node> path;
-	public ArrayList<Node> blacklistNodes;
+	public Node initialNode; // noeud de départ (nid)
+	public Node finalNode; // noeud d'arrivé (source de nourriture)
+	public Node currentNode; // noeud courant
+	public Node targetNode; // noeud cible (noeud de départ ou d'arrivé)
+	public Stack<Node> path; // chemin parcouru (seulement dans le sens départ -> arrivé)
+	public ArrayList<Node> blacklistNodes; // noeuds à éviter
 
 	public Ant(Node initialNode, Node targetNode) {
 		this.initialNode = initialNode;
@@ -43,8 +43,10 @@ public class Ant extends Thread {
 				} catch (InterruptedException e) {
 				}
 
+				// Récupérer les noeuds proches
 				adjacentNodes = getCorrectAdjacentNodes();
 
+				// Avancer ou faire demi-tour (boucle ou impasse)
 				if (adjacentNodes.isEmpty())
 					currentNode = goBack();
 				else
@@ -52,9 +54,12 @@ public class Ant extends Thread {
 
 				System.out.println("Arrivé au noeud " + currentNode);
 
+				// Arrivée au noeud cible
 				if (currentNode == targetNode) {
+					// Faire le chemin du retour
 					if (targetNode == initialNode)
 						setTargetNode(finalNode);
+					// Aller vers la source de nourriture
 					else {
 						setTargetNode(initialNode);
 						path.pop();
@@ -87,6 +92,8 @@ public class Ant extends Thread {
 
 	/// Se rendre sur un noeud parmi la liste des noeuds adjacents (liés)
 	public Node goNode(ArrayList<Node> adjacentNodes) {
+		// Dans le cas du chemin de retour, la fourmi ne faire que
+		// parcourir le chemin de l'aller
 		if (targetNode == initialNode)
 			return path.pop();
 
@@ -128,7 +135,7 @@ public class Ant extends Thread {
 
 		// Déplacement vers le noeud sélectionné avec pose de phéromone
 		arc = nextNode.getArcTo(currentNode);
-		dropPheromone(Config.Q / arc.cost);
+		dropPheromone(arc);
 		path.add(nextNode);
 		return nextNode;
 	}
@@ -161,8 +168,9 @@ public class Ant extends Thread {
 
 		return adjacentNodes;
 	}
-	
-	public void dropPheromone() {
+
+	/// Déposer des phéromone sur l'arc indiqué
+	public void dropPheromone(Arc arc) {
 		arc.dropPheromone(Config.Q / arc.cost);
 	}
 }
