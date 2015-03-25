@@ -34,10 +34,9 @@ public class Node {
 
 	/// Récupérer le lien entre le noeud actuel et un autre
 	public Arc getArcTo(Node testNode) {
-		for (Arc sibling : siblings) {
+		for (Arc sibling : siblings)
 			if (sibling.nodeA == testNode || sibling.nodeB == testNode)
 				return sibling;
-		}
 
 		return null;
 	}
