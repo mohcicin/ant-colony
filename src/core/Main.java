@@ -7,15 +7,15 @@ import java.util.ArrayList;
 public class Main {
 	public static void main(String[] args) {
 		/*
-		 F
+		   F
 		 3/ \1
 		 D   E
 		 4\ /1
-		 C
+		   C
 		 1/ \5
 		 B   A
 		 1\ /5
-		 N
+		   N
 		 */
 
 		// Création des noeuds
