@@ -6,11 +6,13 @@ import core.Arc;
 import core.Ant;
 import java.util.ArrayList;
 
+/// Affichage graphique
 public class Window extends JFrame {
 	private final Viewer viewer;
 
 	public Window(ArrayList<Node> nodes, ArrayList<Arc> arcs, ArrayList<Ant> ants) {
 		viewer = new Viewer(nodes, arcs, ants);
+
 		this.setTitle("AntColony");
 		this.setSize(Config.WIDTH, Config.HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,6 +23,7 @@ public class Window extends JFrame {
 		run();
 	}
 
+	/// Exécution des l'animation (pour voir les fourmis changer de noeuds)
 	private void run() {
 		while (true) {
 			viewer.repaint();
