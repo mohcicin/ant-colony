@@ -22,6 +22,7 @@ public class Viewer extends JPanel {
 		this.ants = ants;
 	}
 
+	/// Affichage des arcs, noeuds et fourmis
 	@Override
 	public void paintComponent(Graphics g) {
 		int nodeSize = 40;
